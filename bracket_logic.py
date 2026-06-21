@@ -1,6 +1,7 @@
 import json
 import re
 from pathlib import Path
+from flags import clean_country_name
 
 ROUND_OF_32 = {
     73: ("2A", "2B", "LA"),
@@ -51,13 +52,15 @@ def resolve_seed(seed, zones, include_thirds=False):
         group = seed[1]
         rows = zones.get(group, [])
         if len(rows) > pos:
-            return rows[pos].get("team", seed)
-        return seed
+            return clean_country_name(rows[pos].get("team", seed))
+        return ""
+
+    # Los terceros sin definir quedan como espacio en blanco.
     if seed.startswith("3"):
-        if not include_thirds:
-            return "Rival a definir"
-        return "Mejor tercero " + seed[1:]
-    return seed
+        return ""
+
+    return clean_country_name(seed)
+
 
 def make_bracket_from_zones(zones, include_thirds=False):
     out = {"r32":{}, "r16":{}, "qf":{}, "sf":{}, "third":{}, "final":{}, "source":"zonas_validadas.json"}
@@ -91,10 +94,12 @@ def overlay_promiedos_bracket(base, prom):
             if no not in base.get(round_key, {}):
                 continue
             h, a = data.get("home"), data.get("away")
-            if h and a and not seed_like(h) and not seed_like(a):
-                base[round_key][no]["home"] = h
-                base[round_key][no]["away"] = a
-                base[round_key][no]["sub"] = data.get("sub","")
+            h_clean = clean_country_name(h)
+            a_clean = clean_country_name(a)
+            if h_clean and a_clean and not seed_like(h_clean) and not seed_like(a_clean):
+                base[round_key][no]["home"] = h_clean
+                base[round_key][no]["away"] = a_clean
+                base[round_key][no]["sub"] = ""
                 changed += 1
     base["source"] = "Promiedos armado" if changed else "Zonas validadas + estructura Promiedos"
     base["promiedos_replacements"] = changed
