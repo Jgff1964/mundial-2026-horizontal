@@ -46,19 +46,11 @@ def seed_like(value):
     return False
 
 def resolve_seed(seed, zones, include_thirds=False):
-    seed = str(seed).strip().upper()
+    seed=str(seed).strip().upper()
     if re.fullmatch(r"[12][A-L]", seed):
-        pos = int(seed[0]) - 1
-        group = seed[1]
-        rows = zones.get(group, [])
-        if len(rows) > pos:
-            return canon_country_name(rows[pos].get("team", seed))
-        return ""
-
-    # Los terceros pendientes quedan en blanco.
-    if seed.startswith("3"):
-        return ""
-
+        pos=int(seed[0])-1; group=seed[1]; rows=zones.get(group,[])
+        return canon_country_name(rows[pos].get("team",seed)) if len(rows)>pos else ""
+    if seed.startswith("3"): return ""
     return canon_country_name(seed)
 
 
@@ -85,31 +77,18 @@ def make_bracket_from_zones(zones, include_thirds=False):
     return out
 
 def overlay_promiedos_bracket(base, prom):
-    if not prom:
-        return base
-    changed = 0
+    changed=0
+    if prom:
+        for round_key in ["r32","r16","qf","sf","third","final"]:
+            for no,data in prom.get(round_key,{}).items():
+                no=int(no)
+                if no not in base.get(round_key,{}): continue
+                h=canon_country_name(data.get("home")); a=canon_country_name(data.get("away"))
+                if h and a and not seed_like(h) and not seed_like(a):
+                    base[round_key][no]["home"]=h; base[round_key][no]["away"]=a; base[round_key][no]["sub"]=""; changed+=1
     for round_key in ["r32","r16","qf","sf","third","final"]:
-        for no, data in prom.get(round_key, {}).items():
-            no = int(no)
-            if no not in base.get(round_key, {}):
-                continue
-
-            h_clean = canon_country_name(data.get("home"))
-            a_clean = canon_country_name(data.get("away"))
-
-            if h_clean and a_clean and not seed_like(h_clean) and not seed_like(a_clean):
-                base[round_key][no]["home"] = h_clean
-                base[round_key][no]["away"] = a_clean
-                base[round_key][no]["sub"] = ""
-                changed += 1
-
-    # Limpieza final de TODO el bracket, incluso si vino de zonas_validadas.
-    for round_key in ["r32","r16","qf","sf","third","final"]:
-        for no, data in base.get(round_key, {}).items():
-            data["home"] = canon_country_name(data.get("home"))
-            data["away"] = canon_country_name(data.get("away"))
-            data["sub"] = ""
-
-    base["source"] = "Promiedos armado" if changed else "Zonas validadas + estructura Promiedos"
-    base["promiedos_replacements"] = changed
+        for no,data in base.get(round_key,{}).items():
+            data["home"]=canon_country_name(data.get("home")); data["away"]=canon_country_name(data.get("away")); data["sub"]=""
+    base["source"]="Promiedos armado" if changed else "Zonas actualizadas + estructura Promiedos"
+    base["promiedos_replacements"]=changed
     return base

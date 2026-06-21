@@ -3,12 +3,10 @@ from html import escape
 from flags import display_country, canon_country_name
 
 def team_text(name):
-    country = canon_country_name(name)
-    if not country:
-        return ""
-    if country.startswith("GANADOR") or country.startswith("PERDEDOR"):
-        return escape(country)
-    return escape(display_country(country))
+    c=canon_country_name(name)
+    if not c: return ""
+    if c.startswith("GANADOR") or c.startswith("PERDEDOR"): return escape(c)
+    return escape(display_country(c))
 
 
 def box(x, y, w, h, title, home, away, sub="", color="#0078ff"):
