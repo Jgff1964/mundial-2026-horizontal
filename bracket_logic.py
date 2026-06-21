@@ -55,7 +55,7 @@ def resolve_seed(seed, zones, include_thirds=False):
             return clean_country_name(rows[pos].get("team", seed))
         return ""
 
-    # Los terceros sin definir quedan como espacio en blanco.
+    # Los terceros pendientes quedan en blanco.
     if seed.startswith("3"):
         return ""
 
@@ -93,9 +93,8 @@ def overlay_promiedos_bracket(base, prom):
             no = int(no)
             if no not in base.get(round_key, {}):
                 continue
-            h, a = data.get("home"), data.get("away")
-            h_clean = clean_country_name(h)
-            a_clean = clean_country_name(a)
+            h_clean = clean_country_name(data.get("home"))
+            a_clean = clean_country_name(data.get("away"))
             if h_clean and a_clean and not seed_like(h_clean) and not seed_like(a_clean):
                 base[round_key][no]["home"] = h_clean
                 base[round_key][no]["away"] = a_clean
