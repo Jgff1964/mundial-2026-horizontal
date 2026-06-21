@@ -1,0 +1,14 @@
+{
+  "A": [{"team":"México","pts":6,"gd":0,"gf":0},{"team":"Corea del Sur","pts":3,"gd":0,"gf":0},{"team":"República Checa","pts":1,"gd":0,"gf":0},{"team":"Sudáfrica","pts":1,"gd":0,"gf":0}],
+  "B": [{"team":"Canadá","pts":4,"gd":0,"gf":0},{"team":"Suiza","pts":4,"gd":0,"gf":0},{"team":"Bosnia y Herzegovina","pts":1,"gd":0,"gf":0},{"team":"Catar","pts":1,"gd":0,"gf":0}],
+  "C": [{"team":"Brasil","pts":4,"gd":0,"gf":0},{"team":"Marruecos","pts":4,"gd":0,"gf":0},{"team":"Escocia","pts":3,"gd":0,"gf":0},{"team":"Haití","pts":0,"gd":0,"gf":0}],
+  "D": [{"team":"Estados Unidos","pts":6,"gd":0,"gf":0},{"team":"Australia","pts":3,"gd":0,"gf":0},{"team":"Paraguay","pts":3,"gd":0,"gf":0},{"team":"Turquía","pts":0,"gd":0,"gf":0}],
+  "E": [{"team":"Alemania","pts":6,"gd":0,"gf":0},{"team":"Costa de Marfil","pts":3,"gd":0,"gf":0},{"team":"Ecuador","pts":0,"gd":0,"gf":0},{"team":"Curazao","pts":0,"gd":0,"gf":0}],
+  "F": [{"team":"Países Bajos","pts":4,"gd":0,"gf":0},{"team":"Suecia","pts":3,"gd":0,"gf":0},{"team":"Japón","pts":1,"gd":0,"gf":0},{"team":"Túnez","pts":0,"gd":0,"gf":0}],
+  "G": [{"team":"Nueva Zelanda","pts":1,"gd":0,"gf":0},{"team":"Irán","pts":1,"gd":0,"gf":0},{"team":"Bélgica","pts":1,"gd":0,"gf":0},{"team":"Egipto","pts":1,"gd":0,"gf":0}],
+  "H": [{"team":"Uruguay","pts":1,"gd":0,"gf":0},{"team":"Arabia Saudita","pts":1,"gd":0,"gf":0},{"team":"España","pts":1,"gd":0,"gf":0},{"team":"Cabo Verde","pts":1,"gd":0,"gf":0}],
+  "I": [{"team":"Noruega","pts":3,"gd":0,"gf":0},{"team":"Francia","pts":3,"gd":0,"gf":0},{"team":"Senegal","pts":0,"gd":0,"gf":0},{"team":"Irak","pts":0,"gd":0,"gf":0}],
+  "J": [{"team":"Argentina","pts":3,"gd":0,"gf":0},{"team":"Austria","pts":3,"gd":0,"gf":0},{"team":"Jordania","pts":0,"gd":0,"gf":0},{"team":"Argelia","pts":0,"gd":0,"gf":0}],
+  "K": [{"team":"Colombia","pts":3,"gd":0,"gf":0},{"team":"RD Congo","pts":1,"gd":0,"gf":0},{"team":"Portugal","pts":1,"gd":0,"gf":0},{"team":"Uzbekistán","pts":0,"gd":0,"gf":0}],
+  "L": [{"team":"Inglaterra","pts":3,"gd":0,"gf":0},{"team":"Ghana","pts":3,"gd":0,"gf":0},{"team":"Panamá","pts":0,"gd":0,"gf":0},{"team":"Croacia","pts":0,"gd":0,"gf":0}]
+}
