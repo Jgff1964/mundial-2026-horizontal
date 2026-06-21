@@ -62,7 +62,15 @@ function setZoom(z){zoom=z;applyZoom();}
 function fitWidth(){zoom=Math.max(.35, Math.min(1.5, vp.clientWidth/1800));applyZoom();}
 async function updateData(){
   showStatus('Actualizando desde FIFA...');
-  try{const r=await fetch('/api/update',{method:'POST'});const j=await r.json();if(!j.ok)throw new Error(j.error||'Error');await loadBracket();showStatus('Actualizado: '+j.last_update);}
+  try{
+    const r=await fetch('/api/update',{method:'POST'});
+    const txt=await r.text();
+    let j;
+    try { j=JSON.parse(txt); } catch(_){ throw new Error('El servidor devolvió HTML en vez de JSON. Revisar logs de Render.'); }
+    if(!j.ok)throw new Error(j.error||'Error');
+    await loadBracket();
+    showStatus('Actualizado: '+j.last_update);
+  }
   catch(e){showStatus('Error: '+e.message,true);}
 }
 async function setThirds(){
@@ -70,7 +78,10 @@ async function setThirds(){
   await loadBracket();
 }
 async function loadBracket(){
-  const r=await fetch('/api/render'); const j=await r.json();
+  const r=await fetch('/api/render');
+  const txt=await r.text();
+  let j;
+  try { j=JSON.parse(txt); } catch(_){ showStatus('Error del servidor al renderizar. Revisar logs de Render.', true); return; }
   canvas.innerHTML=j.svg; document.getElementById('thirds').checked=j.include_thirds; applyZoom();
 }
 window.addEventListener('resize',()=>{});
@@ -110,7 +121,10 @@ def settings():
 
 @app.route("/api/render")
 def render():
-    return jsonify({"svg": current_svg(), "include_thirds": STATE["include_thirds"]})
+    try:
+        return jsonify({"svg": current_svg(), "include_thirds": STATE["include_thirds"]})
+    except Exception as exc:
+        return jsonify({"svg": f'<div class="empty">Error al generar el cuadro: {exc}</div>', "include_thirds": STATE["include_thirds"], "error": str(exc)}), 200
 
 @app.route("/bracket.svg")
 def bracket_svg():

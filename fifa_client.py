@@ -132,13 +132,30 @@ class FifaOfficialClient:
         def nested_team(raw):
             if not raw:
                 return (None, None)
+
+            if isinstance(raw, list):
+                for item in raw:
+                    name, code = nested_team(item)
+                    if name:
+                        return (name, code)
+                return (None, None)
+
             if isinstance(raw, str):
                 return (raw, None)
+
             if isinstance(raw, dict):
-                name = raw.get("name") or raw.get("Name") or raw.get("shortName") or raw.get("ShortName") or raw.get("displayName") or raw.get("teamName") or raw.get("TeamName") or raw.get("Description") or raw.get("countryName")
-                code = raw.get("abbreviation") or raw.get("Abbreviation") or raw.get("code") or raw.get("Code") or raw.get("countryCode") or raw.get("CountryCode") or raw.get("triCode") or raw.get("TriCode")
+                name = (
+                    raw.get("name") or raw.get("Name") or raw.get("shortName") or raw.get("ShortName")
+                    or raw.get("displayName") or raw.get("teamName") or raw.get("TeamName")
+                    or raw.get("Description") or raw.get("countryName") or raw.get("CountryName")
+                )
+                code = (
+                    raw.get("abbreviation") or raw.get("Abbreviation") or raw.get("code") or raw.get("Code")
+                    or raw.get("countryCode") or raw.get("CountryCode") or raw.get("triCode") or raw.get("TriCode")
+                )
                 return (name, code)
-            return (None, None)
+
+            return (str(raw), None)
 
         home_raw = pick("home", "homeTeam", "Home", "HomeTeam", "homeCompetitor")
         away_raw = pick("away", "awayTeam", "Away", "AwayTeam", "awayCompetitor")

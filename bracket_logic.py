@@ -11,9 +11,79 @@ SEMIS = {101:(97,98,"DAL"),102:(99,100,"ATL")}
 THIRD_PLACE = {103:(101,102,"MIA")}
 FINAL = {104:(101,102,"NYNJ")}
 
-def normalize_team(name: str | None) -> str:
-    if not name: return ""
-    aliases = {"Korea Republic":"Corea del Sur","Czechia":"República Checa","Congo DR":"RD Congo","DR Congo":"RD Congo","USA":"Estados Unidos","IR Iran":"Irán","Türkiye":"Turquía","Saudi Arabia":"Arabia Saudita","Netherlands":"Países Bajos","Côte d'Ivoire":"Costa de Marfil","Ivory Coast":"Costa de Marfil","New Zealand":"Nueva Zelanda","Bosnia and Herzegovina":"Bosnia y Herzegovina","England":"Inglaterra","Spain":"España","Switzerland":"Suiza","Morocco":"Marruecos","Germany":"Alemania","Brazil":"Brasil","France":"Francia","Mexico":"México","Argentina":"Argentina","Uruguay":"Uruguay","Belgium":"Bélgica","Colombia":"Colombia","Paraguay":"Paraguay","Austria":"Austria","Norway":"Noruega","Japan":"Japón","Sweden":"Suecia","Australia":"Australia","Ghana":"Ghana","Canada":"Canadá","Portugal":"Portugal"}
+
+def normalize_team(name) -> str:
+    """
+    FIFA a veces devuelve el equipo como string, dict o list.
+    Esta función lo normaliza a texto para evitar:
+    TypeError: cannot use 'list' as a dict key
+    """
+    if name is None:
+        return ""
+
+    if isinstance(name, list):
+        # Tomar el primer elemento útil de la lista.
+        for item in name:
+            value = normalize_team(item)
+            if value:
+                return value
+        return ""
+
+    if isinstance(name, dict):
+        # Formatos posibles que FIFA puede devolver.
+        for key in [
+            "name", "Name", "shortName", "ShortName", "displayName",
+            "teamName", "TeamName", "Description", "countryName",
+            "CountryName", "Abbreviation", "abbreviation", "code", "Code"
+        ]:
+            value = name.get(key)
+            if value:
+                return normalize_team(value)
+        return ""
+
+    if not isinstance(name, str):
+        name = str(name)
+
+    name = name.strip()
+    if not name:
+        return ""
+
+    aliases = {
+        "Korea Republic": "Corea del Sur",
+        "Czechia": "República Checa",
+        "Congo DR": "RD Congo",
+        "DR Congo": "RD Congo",
+        "USA": "Estados Unidos",
+        "IR Iran": "Irán",
+        "Türkiye": "Turquía",
+        "Saudi Arabia": "Arabia Saudita",
+        "Netherlands": "Países Bajos",
+        "Côte d'Ivoire": "Costa de Marfil",
+        "Ivory Coast": "Costa de Marfil",
+        "New Zealand": "Nueva Zelanda",
+        "Bosnia and Herzegovina": "Bosnia y Herzegovina",
+        "England": "Inglaterra",
+        "Spain": "España",
+        "Switzerland": "Suiza",
+        "Morocco": "Marruecos",
+        "Germany": "Alemania",
+        "Brazil": "Brasil",
+        "France": "Francia",
+        "Mexico": "México",
+        "Argentina": "Argentina",
+        "Uruguay": "Uruguay",
+        "Belgium": "Bélgica",
+        "Colombia": "Colombia",
+        "Paraguay": "Paraguay",
+        "Austria": "Austria",
+        "Norway": "Noruega",
+        "Japan": "Japón",
+        "Sweden": "Suecia",
+        "Australia": "Australia",
+        "Ghana": "Ghana",
+        "Canada": "Canadá",
+        "Portugal": "Portugal",
+    }
     return aliases.get(name, name)
 
 def is_finished(m: Match) -> bool:
@@ -24,7 +94,8 @@ def build_group_tables(matches: List[Match]) -> Dict[str, List[dict]]:
     for m in matches:
         if not m.group or m.group not in tables or m.match_no > 72: continue
         home, away = normalize_team(m.home), normalize_team(m.away)
-        if not home or not away: continue
+        if not home or not away:
+            continue
         ht, at = tables[m.group][home], tables[m.group][away]
         ht["team"], ht["code"] = home, m.home_code or ""
         at["team"], at["code"] = away, m.away_code or ""
