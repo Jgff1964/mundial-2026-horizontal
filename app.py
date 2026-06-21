@@ -111,7 +111,7 @@ def update():
         return jsonify({"ok": True, "last_update": STATE["last_update"], "matches": len(STATE["matches"])})
     except Exception as exc:
         STATE["last_error"] = str(exc)
-        return jsonify({"ok": False, "error": str(exc)}), 500
+        return jsonify({"ok": False, "error": str(exc), "hint": "No se muestran datos para evitar un cuadro incorrecto."}), 500
 
 @app.route("/api/settings", methods=["POST"])
 def settings():
@@ -129,6 +129,17 @@ def render():
 @app.route("/bracket.svg")
 def bracket_svg():
     return Response(current_svg(), mimetype="image/svg+xml")
+
+
+@app.route("/api/debug")
+def debug():
+    return jsonify({
+        "last_update": STATE["last_update"],
+        "last_error": STATE["last_error"],
+        "include_thirds": STATE["include_thirds"],
+        "matches_count": len(STATE["matches"]),
+        "sample": [m.__dict__ for m in STATE["matches"][:10]],
+    })
 
 @app.route("/manifest.json")
 def manifest():
