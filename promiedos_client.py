@@ -1,4 +1,5 @@
 import requests
+from flags import canon_country_name
 from bs4 import BeautifulSoup
 
 PROMIEDOS_URL = "https://www.promiedos.com.ar/league/fifa-world-cup/fjda"
@@ -53,7 +54,13 @@ class PromiedosClient:
         return sections
 
     def _clean(self, t):
-        return str(t).strip().replace("Ganador del partido ", "Ganador M").replace("Perdedor del partido ", "Perdedor M")
+        t = str(t).strip()
+        t = t.replace("Ganador del partido ", "Ganador M")
+        t = t.replace("Perdedor del partido ", "Perdedor M")
+        if t.upper().startswith("GANADOR") or t.upper().startswith("PERDEDOR"):
+            return t
+        return canon_country_name(t)
+
 
     def _pairs(self, tokens):
         cleaned = [self._clean(t) for t in tokens if self._clean(t) and self._clean(t) not in {"FINAL","3er puesto"}]

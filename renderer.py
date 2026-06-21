@@ -1,15 +1,15 @@
 
 from html import escape
-from flags import clean_country_name, flag_for
+from flags import display_country, canon_country_name
 
 def team_text(name):
-    s = clean_country_name(name)
-    if not s:
+    country = canon_country_name(name)
+    if not country:
         return ""
-    if s.lower().startswith("ganador") or s.lower().startswith("perdedor"):
-        return escape(s.upper())
-    flag = flag_for(s)
-    return f"{flag} {escape(s.upper())}".strip()
+    if country.startswith("GANADOR") or country.startswith("PERDEDOR"):
+        return escape(country)
+    return escape(display_country(country))
+
 
 def box(x, y, w, h, title, home, away, sub="", color="#0078ff"):
     home_txt = team_text(home)

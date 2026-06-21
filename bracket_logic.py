@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from flags import clean_country_name
+from flags import canon_country_name
 
 ROUND_OF_32 = {
     73: ("2A", "2B", "LA"),
@@ -52,13 +52,14 @@ def resolve_seed(seed, zones, include_thirds=False):
         group = seed[1]
         rows = zones.get(group, [])
         if len(rows) > pos:
-            return clean_country_name(rows[pos].get("team", seed))
+            return canon_country_name(rows[pos].get("team", seed))
         return ""
 
+    # Los terceros pendientes quedan en blanco.
     if seed.startswith("3"):
         return ""
 
-    return clean_country_name(seed)
+    return canon_country_name(seed)
 
 
 def make_bracket_from_zones(zones, include_thirds=False):
@@ -92,13 +93,23 @@ def overlay_promiedos_bracket(base, prom):
             no = int(no)
             if no not in base.get(round_key, {}):
                 continue
-            h_clean = clean_country_name(data.get("home"))
-            a_clean = clean_country_name(data.get("away"))
+
+            h_clean = canon_country_name(data.get("home"))
+            a_clean = canon_country_name(data.get("away"))
+
             if h_clean and a_clean and not seed_like(h_clean) and not seed_like(a_clean):
                 base[round_key][no]["home"] = h_clean
                 base[round_key][no]["away"] = a_clean
                 base[round_key][no]["sub"] = ""
                 changed += 1
+
+    # Limpieza final de TODO el bracket, incluso si vino de zonas_validadas.
+    for round_key in ["r32","r16","qf","sf","third","final"]:
+        for no, data in base.get(round_key, {}).items():
+            data["home"] = canon_country_name(data.get("home"))
+            data["away"] = canon_country_name(data.get("away"))
+            data["sub"] = ""
+
     base["source"] = "Promiedos armado" if changed else "Zonas validadas + estructura Promiedos"
     base["promiedos_replacements"] = changed
     return base
