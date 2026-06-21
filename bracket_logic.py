@@ -55,7 +55,6 @@ def resolve_seed(seed, zones, include_thirds=False):
             return clean_country_name(rows[pos].get("team", seed))
         return ""
 
-    # Los terceros pendientes quedan en blanco.
     if seed.startswith("3"):
         return ""
 

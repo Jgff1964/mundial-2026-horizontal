@@ -1,6 +1,6 @@
 
 from html import escape
-from flags import flag_for, clean_country_name
+from flags import clean_country_name, flag_for
 
 def team_text(name):
     s = clean_country_name(name)
@@ -8,8 +8,8 @@ def team_text(name):
         return ""
     if s.lower().startswith("ganador") or s.lower().startswith("perdedor"):
         return escape(s.upper())
-    f = flag_for(s)
-    return f"{f} {escape(s.upper())}".strip()
+    flag = flag_for(s)
+    return f"{flag} {escape(s.upper())}".strip()
 
 def box(x, y, w, h, title, home, away, sub="", color="#0078ff"):
     home_txt = team_text(home)
@@ -52,7 +52,11 @@ def render_svg(bracket, subtitle="Promiedos + zonas validadas"):
     def header(txt, x, y, w):
         return f'<rect x="{x}" y="{y}" width="{w}" height="26" rx="10" fill="#050915" stroke="#31466e"/><text x="{x+w/2}" y="{y+18}" class="head">{txt}</text>'
 
-    for txt, x, w in [("DIECISEISAVOS",55,230),("OCTAVOS",345,160),("CUARTOS",555,135),("SEMIS",680,155),("FINAL",835,130),("SEMIS",1015,160),("CUARTOS",1145,135),("OCTAVOS",1345,160),("DIECISEISAVOS",1515,230)]:
+    for txt, x, w in [
+        ("DIECISEISAVOS",55,230),("OCTAVOS",345,160),("CUARTOS",555,135),("SEMIS",680,155),
+        ("FINAL",835,130),("SEMIS",1015,160),("CUARTOS",1145,135),("OCTAVOS",1345,160),
+        ("DIECISEISAVOS",1515,230)
+    ]:
         parts.append(header(txt, x, 108, w))
 
     for no, y in zip([74,77,73,75,83,84,81,82], left_y):
@@ -116,4 +120,4 @@ def render_svg(bracket, subtitle="Promiedos + zonas validadas"):
 
     parts.append(f'''<text x="900" y="958" class="foot">{escape(source)}</text><text x="900" y="980" class="foot">Pantalla horizontal · zoom móvil · Promiedos + zonas validadas</text><style>
 .main{{font:700 42px Arial,sans-serif;fill:#fff;text-anchor:middle}}.subtitle{{font:700 24px Arial,sans-serif;fill:#ddd;text-anchor:middle}}.head{{font:700 13px Arial,sans-serif;fill:#fff;text-anchor:middle}}.title{{font:700 14px Arial,sans-serif;fill:#fff;text-anchor:middle}}.team{{font:700 15px Arial,sans-serif;fill:#111}}.vs{{font:700 10px Arial,sans-serif;fill:#222;text-anchor:middle}}.vertical{{font:800 34px Arial,sans-serif;fill:#fff;text-anchor:middle;letter-spacing:2px}}.trophy{{font:90px Arial,sans-serif;fill:#d9a323;text-anchor:middle}}.thirdtitle{{font:700 14px Arial,sans-serif;fill:#ffcc44;text-anchor:middle}}.foot{{font:italic 700 15px Arial,sans-serif;fill:#eee;text-anchor:middle}}</style></svg>''')
-    return "\n".join(parts)
+    return "\\n".join(parts)
