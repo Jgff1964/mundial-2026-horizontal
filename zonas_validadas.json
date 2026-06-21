@@ -1,0 +1,170 @@
+{
+  "A": [
+    {
+      "team": "México"
+    },
+    {
+      "team": "Corea del Sur"
+    },
+    {
+      "team": "República Checa"
+    },
+    {
+      "team": "Sudáfrica"
+    }
+  ],
+  "B": [
+    {
+      "team": "Canadá"
+    },
+    {
+      "team": "Suiza"
+    },
+    {
+      "team": "Bosnia y Herzegovina"
+    },
+    {
+      "team": "Catar"
+    }
+  ],
+  "C": [
+    {
+      "team": "Brasil"
+    },
+    {
+      "team": "Marruecos"
+    },
+    {
+      "team": "Escocia"
+    },
+    {
+      "team": "Haití"
+    }
+  ],
+  "D": [
+    {
+      "team": "Estados Unidos"
+    },
+    {
+      "team": "Australia"
+    },
+    {
+      "team": "Paraguay"
+    },
+    {
+      "team": "Turquía"
+    }
+  ],
+  "E": [
+    {
+      "team": "Alemania"
+    },
+    {
+      "team": "Costa de Marfil"
+    },
+    {
+      "team": "Ecuador"
+    },
+    {
+      "team": "Curazao"
+    }
+  ],
+  "F": [
+    {
+      "team": "Países Bajos"
+    },
+    {
+      "team": "Suecia"
+    },
+    {
+      "team": "Japón"
+    },
+    {
+      "team": "Túnez"
+    }
+  ],
+  "G": [
+    {
+      "team": "Nueva Zelanda"
+    },
+    {
+      "team": "Irán"
+    },
+    {
+      "team": "Bélgica"
+    },
+    {
+      "team": "Egipto"
+    }
+  ],
+  "H": [
+    {
+      "team": "Uruguay"
+    },
+    {
+      "team": "Arabia Saudita"
+    },
+    {
+      "team": "España"
+    },
+    {
+      "team": "Cabo Verde"
+    }
+  ],
+  "I": [
+    {
+      "team": "Noruega"
+    },
+    {
+      "team": "Francia"
+    },
+    {
+      "team": "Senegal"
+    },
+    {
+      "team": "Irak"
+    }
+  ],
+  "J": [
+    {
+      "team": "Argentina"
+    },
+    {
+      "team": "Austria"
+    },
+    {
+      "team": "Jordania"
+    },
+    {
+      "team": "Argelia"
+    }
+  ],
+  "K": [
+    {
+      "team": "Colombia"
+    },
+    {
+      "team": "RD Congo"
+    },
+    {
+      "team": "Portugal"
+    },
+    {
+      "team": "Uzbekistán"
+    }
+  ],
+  "L": [
+    {
+      "team": "Inglaterra"
+    },
+    {
+      "team": "Ghana"
+    },
+    {
+      "team": "Panamá"
+    },
+    {
+      "team": "Croacia"
+    }
+  ]
+}
